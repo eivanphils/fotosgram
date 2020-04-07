@@ -11,14 +11,22 @@ export class Tab1Page implements OnInit {
 
   posts: Post[] = [];
 
+  isDisabled: boolean = false;
+
   constructor(private postsService: PostsService ) {}
 
   ngOnInit() {
     this.paginate();
   }
 
-  paginate(event?) {
-    this.postsService.getPosts().subscribe(
+  doRefresh(event) {
+    this.paginate(event, true);
+    this.posts = [];
+    this.isDisabled = false;
+  }
+
+  paginate(event?, pull: boolean = false) {
+    this.postsService.getPosts(pull).subscribe(
       (response) => {
         console.log(response);
         this.posts.push(...response.posts);
@@ -26,9 +34,9 @@ export class Tab1Page implements OnInit {
         if(event) {
           event.target.complete();
         }
-        
+
         if (response.posts.length === 0) {
-          event.target.disabled = true;
+          this.isDisabled = true;
         }
       },
       (error) => {

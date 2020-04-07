@@ -14,11 +14,18 @@
 
 <ion-content color="light">
   <!-- refresher -->
-    <app-posts [posts]="posts"></app-posts>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
 
-    <ion-infinite-scroll threshold="100px" (ionInfinite)="paginate($event)">
-      <ion-infinite-scroll-content>
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  <app-posts [posts]="posts"></app-posts>
+
+  <ion-infinite-scroll threshold="150px"  
+    [disabled]="isDisabled"
+    (ionInfinite)="paginate($event)">
+    <ion-infinite-scroll-content>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
   <!-- infinite scroll -->
 </ion-content>

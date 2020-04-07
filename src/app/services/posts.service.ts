@@ -15,7 +15,12 @@ export class PostsService {
   constructor(private http: HttpClient) { }
 
 
-  getPosts() {
+  getPosts(pull: boolean = false) {
+
+    if (pull) {
+      this.pagePosts = 0;
+    }
+
     this.pagePosts++;
 
     return this.http.get<RespuestaPosts>(`${URL}/posts/?pagina=${this.pagePosts}`);
