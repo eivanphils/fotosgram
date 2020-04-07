@@ -14,15 +14,27 @@ export class Tab1Page implements OnInit {
   constructor(private postsService: PostsService ) {}
 
   ngOnInit() {
+    this.paginate();
+  }
+
+  paginate(event?) {
     this.postsService.getPosts().subscribe(
       (response) => {
         console.log(response);
         this.posts.push(...response.posts);
+
+        if(event) {
+          event.target.complete();
+        }
+        
+        if (response.posts.length === 0) {
+          event.target.disabled = true;
+        }
       },
       (error) => {
         console.log(error);
       }
-    )
+    );
   }
 
 }
